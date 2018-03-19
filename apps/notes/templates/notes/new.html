@@ -1,0 +1,12 @@
+<div class="card border-primary">
+    <h4 class="card-header">{{note.title}}</h4>
+    <div class="card-body">
+        <p class="card-text">{{note.content}}</p>
+        <form class="card-text" action="{% url 'update' id=note.id %}" method="POST">
+            {% csrf_token %}
+            <textarea name="content">{{note.content}}</textarea>
+            <input type="submit" value="Save">
+        </form>
+    </div>
+    <p class="card-footer"><a class="delete" href="{% url 'delete' id=note.id %}">Delete</a></p>
+</div>

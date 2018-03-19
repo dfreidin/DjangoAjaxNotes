@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Notes</title>
+        <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
+        {% load static %}
+        <script src='{% static "notes/js/scripts.js" %}'></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Notes</h1>
+            <div id="all_notes" class="card-columns">
+                {% for n in notes %}
+                    <div class="card border-primary">
+                        <h4 class="card-header">{{n.title}}</h4>
+                        <div class="card-body">
+                            <p class="card-text">{{n.content}}</p>
+                            <form class="card-text" action="{% url 'update' id=n.id %}" method="POST">
+                                {% csrf_token %}
+                                <textarea name="content">{{n.content}}</textarea>
+                                <input type="submit" value="Save">
+                            </form>
+                        </div>
+                        <p class="card-footer"><a class="delete" href="{% url 'delete' id=n.id %}">Delete</a></p>
+                    </div>
+                {% endfor %}
+            </div>
+            <form id="new" action="new" method="POST">
+                {% csrf_token %}
+                <input type="text" name="title" placeholder="Insert note title here...">
+                <input type="submit" value="Add Note">
+            </form>
+        </div>
+    </body>
+</html>
